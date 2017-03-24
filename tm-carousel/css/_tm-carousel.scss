@@ -1,0 +1,78 @@
+/* Testing and Display*/
+.tm-example{
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*Variables*/
+$carousel-width: 200px !default;
+$transition-transform: transform 0.5s !default;
+$transition-hidden: all 1s !default;
+
+/*Mixins*/
+@mixin transform($transformation){
+  -webkit-transform: $transformation;
+     -moz-transform: $transformation;
+      -ie-transform: $transformation;
+       -o-transform: $transformation;
+          transform: $transformation;
+}
+
+@mixin translate($amtX, $amtY...){
+  @include transform(translate($amtX, $amtY...));
+}
+
+@mixin scale($by){
+  @include transform(scale($by));
+}
+
+/*Animations*/
+@keyframes hide-away{
+  0% {@include scale(1); max-height: 100%}
+ 50% {@include scale(0.9); max-height: 50%;}
+ 100%{max-height: 10px; }
+}
+
+#tm-carousel{
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .c-item{
+   // position: absolute;
+   background: gray;
+   transition: $transition-hidden;
+   cursor: pointer;
+   margin: 1px 0;
+   max-height: 100%;
+   overflow: hidden;
+   padding: 0;
+
+   & > img {
+       transition: all 1s;
+       opacity: 1;
+       margin: 0;
+       padding: 0;
+     }
+  }
+
+  .hide-away{
+    //animation: hide-away 1s;
+    max-height: 10px;
+    background: gray;
+    opacity: 0.5;
+    & > img {
+      opacity: 0;
+    }
+  }
+
+  .bring-forth{
+    width: 100%;
+    max-height: 100%;
+    align-self: center;
+  }
+}
