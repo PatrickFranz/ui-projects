@@ -30,10 +30,23 @@ $transition-hidden: all 1s !default;
 }
 
 /*Animations*/
-@keyframes hide-away{
-  0% {@include scale(1); max-height: 100%}
- 50% {@include scale(0.9); max-height: 50%;}
- 100%{max-height: 10px; }
+@keyframes slide-down--img{
+  0%   {@include translate(0,  0%); opacity: 1}
+  100% {@include translate(0, 95%); opacity: 0}
+}
+
+@keyframes slide-up--img{
+  0%   {@include translate(0,   0%); opacity: 1}
+  100% {@include translate(0, -95%); opacity: 0}
+}
+
+@keyframes hide-away--frame{
+  from {opacity: 1}
+  to   {opacity: 0.5}
+}
+
+@keyframes show--frame{
+  to{opacity: 1; max-height: 100%}
 }
 
 #tm-carousel{
@@ -41,33 +54,52 @@ $transition-hidden: all 1s !default;
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
 
   .c-item{
-   // position: absolute;
-   background: gray;
-   transition: $transition-hidden;
-   cursor: pointer;
-   margin: 1px 0;
-   max-height: 100%;
-   overflow: hidden;
-   padding: 0;
+    position: relative;
+    background: gray;
+    transition: opacity 2s;
+    cursor: pointer;
+    margin: 1px 0;
+    max-height: 100%;
+    overflow: hidden;
+    padding: 0;
 
-   & > img {
-       transition: all 1s;
-       opacity: 1;
-       margin: 0;
-       padding: 0;
-     }
+    & > img {
+        transition: all 1s;
+        opacity: 1;
+        margin: 0;
+        padding: 0;
+      }
+  }
+
+  .slide-down--img{
+    animation: slide-down--img 2s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+  }  
+
+  .slide-up--img{
+    @extend .slide-down--img;
+    animation: slide-up--img 2s;
+  }
+
+  .transition-newImg{
+    animation: show--frame 2s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
   }
 
   .hide-away{
-    //animation: hide-away 1s;
+    animation: hide-away 2s;
     max-height: 10px;
     background: gray;
     opacity: 0.5;
-    & > img {
-      opacity: 0;
-    }
+  }
+
+  .show-image{
+    opacity: 1;
   }
 
   .bring-forth{
