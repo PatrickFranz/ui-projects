@@ -3,6 +3,8 @@ var tm_caro_width = 0;
 var tm_caro_height = 10;
 var tm_opacity_start = 0.75;
 let slideDirection = 1;
+let oldItem,
+    newItem;
 
 function compare(a,b) {
   if (a._pos < b._pos)
@@ -26,16 +28,17 @@ function isClickOnUpperHalf(ev, element){
 /* 
   Reassigns positions of the elements (_pos) depending on where/what the user clicked.
 */
-function click(ev, element){
+function clickHandler(event){
   let clickOnImageUpperHalf = undefined;
-  let clickedElement = element;
-  let oldEl = caro_items.find( el => { return el._pos === 0});
-  if(element._pos === 0){
-    clickOnImageUpperHalf = isClickOnUpperHalf(ev, element);
-    next(clickOnImageUpperHalf, element);
+  newItem = event.currentTarget;
+  oldItem = caro_items.find( el => { return el._pos === 0});
+
+  if(newItem._pos === 0){
+    clickOnImageUpperHalf = isClickOnUpperHalf(event, newItem);
+    next(clickOnImageUpperHalf, newItem);
   } else{
-    while(element._pos !== 0){
-      let dir = element._pos < 0 ? 1 : -1;
+    while(newItem._pos !== 0){
+      let dir = newItem._pos < 0 ? 1 : -1;
       caro_items.forEach(function(item){
         item._pos += dir;
       });
@@ -111,18 +114,23 @@ function relayout(){
     }); 
   }
 
+function transitionAnim(oldItem, newItem){
+
+}
+
+
 onload = function init(){
   var currentPos = caro_items.length -1;
   tm_caro_width = caro_items[0].offsetWidth < window.innerWidth ? caro_items[0].offsetWidth : window.innerWidth;
 
-  caro_items.forEach(function(element, index) {
-    element._pos = currentPos--; //Reverse positioning order
-    element.setAttribute('tabindex', 0);
-    element.firstElementChild.setAttribute('width', tm_caro_width);
-    element.addEventListener("click", function(event){
-      click(event, element);
+  caro_items.forEach(function(item, index) {
+    item._pos = currentPos--; //Reverse positioning order
+    item.setAttribute('tabindex', 0);
+    item.firstElementChild.setAttribute('width', tm_caro_width);
+    item.addEventListener("click", function(event){
+      clickHandler(event);
     });
-    element.addEventListener('keyup', keyHandler);
+    item.addEventListener('keyup', keyHandler);
   });
   relayout();
 }
