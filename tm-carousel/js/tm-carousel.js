@@ -44,6 +44,11 @@ function click(ev, element){
   relayout();
 }
 
+/** Move the carousel ahead/back by one.
+ * 
+ * @param {number} direction 
+ * @param {node} element 
+ */
 function next(direction, element){
    if(caro_items[caro_items.indexOf(element) - direction] !== undefined){
     caro_items.forEach( item =>{
@@ -53,6 +58,10 @@ function next(direction, element){
    }
 }
 
+/**
+ * 
+ * @param {mouseevent} event 
+ */
 function keyHandler(event){
   const slideUp = 1;
   const slideDown = -1;
@@ -81,7 +90,7 @@ function keyHandler(event){
 }
 
 /**
- * Re-lays out the page by add/removing classes and attributes.
+ * Re-lays out the carousel.
  */
 function relayout(){
     caro_items.forEach(function(item){
