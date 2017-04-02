@@ -3,12 +3,11 @@
   display: flex;
   justify-content: center;
   margin-top: 100px;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
 /*Variables*/
-$carousel-width: 200px !default;
 $transition-transform: transform 0.5s !default;
 $transition-hidden: all 1s !default;
 
@@ -66,6 +65,10 @@ $transition-hidden: all 1s !default;
     overflow: hidden;
     padding: 0;
 
+    &:focus{
+      outline: 2px solid initial;
+    }
+
     & > img {
         transition: all 1s;
         opacity: 1;
@@ -100,11 +103,5 @@ $transition-hidden: all 1s !default;
 
   .show-image{
     opacity: 1;
-  }
-
-  .bring-forth{
-    width: 100%;
-    max-height: 100%;
-    align-self: center;
   }
 }

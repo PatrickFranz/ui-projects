@@ -1,8 +1,8 @@
 var caro_items = Array.prototype.slice.call(document.querySelectorAll(".c-item"));
-var tm_carousel = document.getElementById('tm-carousel');
 var tm_caro_width = 0;
 var tm_caro_height = 10;
 var tm_opacity_start = 0.75;
+let slideDirection = 1;
 
 function compare(a,b) {
   if (a._pos < b._pos)
@@ -32,22 +32,52 @@ function click(ev, element){
   let oldEl = caro_items.find( el => { return el._pos === 0});
   if(element._pos === 0){
     clickOnImageUpperHalf = isClickOnUpperHalf(ev, element);
-     if(caro_items[caro_items.indexOf(element) - clickOnImageUpperHalf] !== undefined){
-      caro_items.forEach( item =>{
-          item._pos -= clickOnImageUpperHalf;
-        });
-     }
-    
+    next(clickOnImageUpperHalf, element);
   } else{
     while(element._pos !== 0){
       let dir = element._pos < 0 ? 1 : -1;
       caro_items.forEach(function(item){
         item._pos += dir;
-        console.log(caro_items);
       });
     }
   }
   relayout();
+}
+
+function next(direction, element){
+   if(caro_items[caro_items.indexOf(element) - direction] !== undefined){
+    caro_items.forEach( item =>{
+      item._pos -= direction;
+    });
+    relayout();
+   }
+}
+
+function keyHandler(event){
+  const slideUp = 1;
+  const slideDown = -1;
+
+  switch(event.keyCode)
+  {
+    case 37: //Right Arrow
+    case 38: //Up Arrow
+      next(slideUp, event.target);
+      break;
+    case 39: //Left Arrow
+    case 40: //Down Arrow
+      next(slideDown, event.target);
+      break;
+    case 13: //Enter key
+    case 32: //Space key
+      if(slideDirection === slideDown && !event.target.nextElementSibling){
+        slideDirection = slideUp;
+      } else
+      if(slideDirection === slideUp && !event.target.previousElementSibling){
+        slideDirection = slideDown;
+      }
+      next(slideDirection, event.target);
+      break;
+  }
 }
 
 /**
@@ -55,7 +85,6 @@ function click(ev, element){
  */
 function relayout(){
     caro_items.forEach(function(item){
-      
       if(item._pos !== 0){
         //Style the 'hidden' elements
         item.classList.remove('transition-newImg');
@@ -64,6 +93,7 @@ function relayout(){
         item.style.maxHeight = `${tm_caro_height - Math.abs(item._pos / 2)}px`;
         item.style.opacity = tm_opacity_start - Math.abs(item._pos) / 10;
       } else {
+        item.focus();
         item.removeAttribute('style');
         item.firstElementChild.removeAttribute('style');
         item.classList.add('transition-newImg');
@@ -74,13 +104,16 @@ function relayout(){
 
 onload = function init(){
   var currentPos = caro_items.length -1;
-  tm_caro_width = caro_items[0].offsetWidth;
+  tm_caro_width = caro_items[0].offsetWidth < window.innerWidth ? caro_items[0].offsetWidth : window.innerWidth;
 
   caro_items.forEach(function(element, index) {
     element._pos = currentPos--; //Reverse positioning order
+    element.setAttribute('tabindex', 0);
+    element.firstElementChild.setAttribute('width', tm_caro_width);
     element.addEventListener("click", function(event){
       click(event, element);
     });
+    element.addEventListener('keyup', keyHandler);
   });
   relayout();
 }
