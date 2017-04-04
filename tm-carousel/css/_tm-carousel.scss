@@ -30,8 +30,8 @@ $transition-hidden: all 1s !default;
 
 /*Animations*/
 @keyframes slide-down--img{
-  0%   {@include translate(0,  0%);}
-  100% {@include translate(0, 105%);}
+  0%   {@include translate(0,   0%); opacity: 1}
+  100% {@include translate(0, 105%); opacity: 0}
 }
 
 @keyframes slide-up--img{
@@ -53,7 +53,7 @@ $transition-hidden: all 1s !default;
   .c-item{
     position: relative;
     background: gray;
-    transition: opacity 2s;
+    //transition: opacity 0.75s;
     cursor: pointer;
     margin: 1px 0;
     max-height: 100%;
@@ -83,7 +83,7 @@ $transition-hidden: all 1s !default;
   }
 
   .fadeIn{
-    animation: show--frame 2s;
+    animation: show--frame 0.01s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
   }

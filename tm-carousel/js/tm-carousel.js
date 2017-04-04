@@ -101,7 +101,7 @@ function relayout(clonedNode){
     caro_items.forEach(function(item){
       if(item._pos !== 0){
         //Style the 'hidden' elements
-        //item.firstElementChild.classList.remove('fadeIn');
+        item.firstElementChild.classList.remove('fadeIn');
         item.firstElementChild.style.opacity = 0;
         item.style.width = `${tm_caro_width - Math.abs(item._pos * caro_items.length)}px`;
         item.style.maxHeight = `${tm_caro_height - Math.abs(item._pos / 2)}px`;
@@ -118,23 +118,21 @@ function relayout(clonedNode){
 function transitionAnim(clonedNode, item){
   item.appendChild(clonedNode);
   item.firstElementChild.style.position = 'absolute';
+  item.style.opacity = '1';
   item.firstElementChild.style.opacity = '1';
   item.style.width = '100%';
   item.style.maxHeight = '100%';
   setTimeout(function(){
     item.firstElementChild.style.position = 'relative';
-    item.style.opacity= '1';
-    item.firstElementChild.style.opacity = 0;
-    
     clonedNode.remove();
   }, 1500);
-  
+  item.firstElementChild.classList.add('fadeIn');
   if(slideDirection === -1){
     item.lastElementChild.classList.add('slide-up--img');
   } else {
       item.lastElementChild.classList.add('slide-down--img');
   }
-  item.firstElementChild.classList.add('fadeIn');
+  
 }
 
 
