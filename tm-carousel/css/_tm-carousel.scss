@@ -30,18 +30,13 @@ $transition-hidden: all 1s !default;
 
 /*Animations*/
 @keyframes slide-down--img{
-  0%   {@include translate(0,  0%); opacity: 1}
-  100% {@include translate(0, 95%); opacity: 0}
+  0%   {@include translate(0,  0%);}
+  100% {@include translate(0, 105%);}
 }
 
 @keyframes slide-up--img{
-  0%   {@include translate(0,   0%); opacity: 1}
-  100% {@include translate(0, -95%); opacity: 0}
-}
-
-@keyframes hide-away--frame{
-  from {opacity: 1}
-  to   {opacity: 0.5}
+  0%   {@include translate(0,   0%);}
+  100% {@include translate(0, -105%);}
 }
 
 @keyframes show--frame{
@@ -70,8 +65,6 @@ $transition-hidden: all 1s !default;
     }
 
     & > img {
-        transition: all 1s;
-        opacity: 1;
         margin: 0;
         padding: 0;
       }
@@ -81,6 +74,7 @@ $transition-hidden: all 1s !default;
     animation: slide-down--img 2s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
+  
   }
 
   .slide-up--img{
@@ -88,20 +82,9 @@ $transition-hidden: all 1s !default;
     animation: slide-up--img 2s;
   }
 
-  .transition-newImg{
+  .fadeIn{
     animation: show--frame 2s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
-  }
-
-  .hide-away{
-    animation: hide-away 2s;
-    max-height: 10px;
-    background: gray;
-    opacity: 0.5;
-  }
-
-  .show-image{
-    opacity: 1;
   }
 }

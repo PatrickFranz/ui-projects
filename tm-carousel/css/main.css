@@ -62,35 +62,26 @@ table {
     -moz-transform: translate(0, 0%);
     -ie-transform: translate(0, 0%);
     -o-transform: translate(0, 0%);
-    transform: translate(0, 0%);
-    opacity: 1; }
+    transform: translate(0, 0%); }
   100% {
-    -webkit-transform: translate(0, 95%);
-    -moz-transform: translate(0, 95%);
-    -ie-transform: translate(0, 95%);
-    -o-transform: translate(0, 95%);
-    transform: translate(0, 95%);
-    opacity: 0; } }
+    -webkit-transform: translate(0, 105%);
+    -moz-transform: translate(0, 105%);
+    -ie-transform: translate(0, 105%);
+    -o-transform: translate(0, 105%);
+    transform: translate(0, 105%); } }
 @keyframes slide-up--img {
   0% {
     -webkit-transform: translate(0, 0%);
     -moz-transform: translate(0, 0%);
     -ie-transform: translate(0, 0%);
     -o-transform: translate(0, 0%);
-    transform: translate(0, 0%);
-    opacity: 1; }
+    transform: translate(0, 0%); }
   100% {
-    -webkit-transform: translate(0, -95%);
-    -moz-transform: translate(0, -95%);
-    -ie-transform: translate(0, -95%);
-    -o-transform: translate(0, -95%);
-    transform: translate(0, -95%);
-    opacity: 0; } }
-@keyframes hide-away--frame {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0.5; } }
+    -webkit-transform: translate(0, -105%);
+    -moz-transform: translate(0, -105%);
+    -ie-transform: translate(0, -105%);
+    -o-transform: translate(0, -105%);
+    transform: translate(0, -105%); } }
 @keyframes show--frame {
   to {
     opacity: 1;
@@ -113,8 +104,6 @@ table {
     #tm-carousel .c-item:focus {
       outline: 2px solid initial; }
     #tm-carousel .c-item > img {
-      transition: all 1s;
-      opacity: 1;
       margin: 0;
       padding: 0; }
   #tm-carousel .slide-down--img, #tm-carousel .slide-up--img {
@@ -123,14 +112,7 @@ table {
     animation-fill-mode: forwards; }
   #tm-carousel .slide-up--img {
     animation: slide-up--img 2s; }
-  #tm-carousel .transition-newImg {
+  #tm-carousel .fadeIn {
     animation: show--frame 2s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards; }
-  #tm-carousel .hide-away {
-    animation: hide-away 2s;
-    max-height: 10px;
-    background: gray;
-    opacity: 0.5; }
-  #tm-carousel .show-image {
-    opacity: 1; }

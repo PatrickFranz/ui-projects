@@ -4,7 +4,8 @@ var tm_caro_height = 10;
 var tm_opacity_start = 0.75;
 let slideDirection = 1;
 let oldItem,
-    newItem;
+    newItem
+    slideDirection;
 
 function compare(a,b) {
   if (a._pos < b._pos)
@@ -32,32 +33,31 @@ function clickHandler(event){
   let clickOnImageUpperHalf = undefined;
   newItem = event.currentTarget;
   oldItem = caro_items.find( el => { return el._pos === 0});
-
   if(newItem._pos === 0){
-    clickOnImageUpperHalf = isClickOnUpperHalf(event, newItem);
-    next(clickOnImageUpperHalf, newItem);
+    slideDirection = isClickOnUpperHalf(event, newItem);
+    next(newItem);
+    return;
   } else{
     while(newItem._pos !== 0){
-      let dir = newItem._pos < 0 ? 1 : -1;
+      slideDirection = newItem._pos < 0 ? -1 : 1;
       caro_items.forEach(function(item){
-        item._pos += dir;
+        item._pos -= slideDirection;
       });
     }
   }
-  relayout();
+  relayout((document.getElementById(oldItem.id)).cloneNode(true));
 }
 
 /** Move the carousel ahead/back by one.
- * 
- * @param {number} direction 
+ *
  * @param {node} element 
  */
-function next(direction, element){
-   if(caro_items[caro_items.indexOf(element) - direction] !== undefined){
+function next(element){
+   if(caro_items[caro_items.indexOf(element) - slideDirection] !== undefined){
     caro_items.forEach( item =>{
-      item._pos -= direction;
+      item._pos -= slideDirection;
     });
-    relayout();
+    relayout((document.getElementById(element.id)).cloneNode(true));
    }
 }
 
@@ -73,11 +73,13 @@ function keyHandler(event){
   {
     case 37: //Right Arrow
     case 38: //Up Arrow
-      next(slideUp, event.target);
+      slideDirection = slideUp
+      next(event.target);
       break;
     case 39: //Left Arrow
     case 40: //Down Arrow
-      next(slideDown, event.target);
+      slideDirection = slideDown;
+      next(event.target);
       break;
     case 13: //Enter key
     case 32: //Space key
@@ -87,7 +89,7 @@ function keyHandler(event){
       if(slideDirection === slideUp && !event.target.previousElementSibling){
         slideDirection = slideDown;
       }
-      next(slideDirection, event.target);
+      next(event.target);
       break;
   }
 }
@@ -95,27 +97,44 @@ function keyHandler(event){
 /**
  * Re-lays out the carousel.
  */
-function relayout(){
+function relayout(clonedNode){
     caro_items.forEach(function(item){
       if(item._pos !== 0){
         //Style the 'hidden' elements
-        item.classList.remove('transition-newImg');
+        //item.firstElementChild.classList.remove('fadeIn');
         item.firstElementChild.style.opacity = 0;
         item.style.width = `${tm_caro_width - Math.abs(item._pos * caro_items.length)}px`;
         item.style.maxHeight = `${tm_caro_height - Math.abs(item._pos / 2)}px`;
         item.style.opacity = tm_opacity_start - Math.abs(item._pos) / 10;
       } else {
         item.focus();
-        item.removeAttribute('style');
-        item.firstElementChild.removeAttribute('style');
-        item.classList.add('transition-newImg');
-        item.firstElementChild.classList.add('show-image');
+        if(clonedNode){
+          transitionAnim(clonedNode, item);
+        }
       }
-    }); 
+    });  
   }
 
-function transitionAnim(oldItem, newItem){
-
+function transitionAnim(clonedNode, item){
+  item.appendChild(clonedNode);
+  item.firstElementChild.style.position = 'absolute';
+  item.firstElementChild.style.opacity = '1';
+  item.style.width = '100%';
+  item.style.maxHeight = '100%';
+  setTimeout(function(){
+    item.firstElementChild.style.position = 'relative';
+    item.style.opacity= '1';
+    item.firstElementChild.style.opacity = 0;
+    
+    clonedNode.remove();
+  }, 1500);
+  
+  if(slideDirection === -1){
+    item.lastElementChild.classList.add('slide-up--img');
+  } else {
+      item.lastElementChild.classList.add('slide-down--img');
+  }
+  item.firstElementChild.classList.add('fadeIn');
 }
 
 
