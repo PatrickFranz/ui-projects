@@ -48,19 +48,6 @@ function clickHandler(event){
   relayout((document.getElementById(oldItem.id)).cloneNode(true));
 }
 
-/** Move the carousel ahead/back by one.
- *
- * @param {node} element 
- */
-function next(element){
-   if(caro_items[caro_items.indexOf(element) - slideDirection] !== undefined){
-    caro_items.forEach( item =>{
-      item._pos -= slideDirection;
-    });
-    relayout((document.getElementById(element.id)).cloneNode(true));
-   }
-}
-
 /**
  * 
  * @param {mouseevent} event 
@@ -93,6 +80,21 @@ function keyHandler(event){
       break;
   }
 }
+
+
+/** Move the carousel ahead/back by one.
+ *
+ * @param {node} element 
+ */
+function next(element){
+   if(caro_items[caro_items.indexOf(element) - slideDirection] !== undefined){
+    caro_items.forEach( item =>{
+      item._pos -= slideDirection;
+    });
+    relayout((document.getElementById(element.id)).cloneNode(true));
+   }
+}
+
 
 /**
  * Re-lays out the carousel.
@@ -130,9 +132,8 @@ function transitionAnim(clonedNode, item){
   if(slideDirection === -1){
     item.lastElementChild.classList.add('slide-up--img');
   } else {
-      item.lastElementChild.classList.add('slide-down--img');
+    item.lastElementChild.classList.add('slide-down--img');
   }
-  
 }
 
 
