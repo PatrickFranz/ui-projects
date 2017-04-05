@@ -10,6 +10,8 @@
 /*Variables*/
 $transition-transform: transform 0.5s !default;
 $transition-hidden: all 1s !default;
+$focus-blue: rgba(52, 152, 219,0.5);
+$bg-gray: rgba(127, 140, 141,1.0);
 
 /*Mixins*/
 @mixin transform($transformation){
@@ -30,13 +32,18 @@ $transition-hidden: all 1s !default;
 
 /*Animations*/
 @keyframes slide-down--img{
-  0%   {@include translate(0,   0%); opacity: 1}
+    0% {@include translate(0,   0%); opacity: 1}
   100% {@include translate(0, 105%); opacity: 0}
 }
 
+@keyframes scale-hover{
+    0%{ background-color: $bg-gray;}
+  100%{ background-color: $focus-blue;}
+}
+
 @keyframes slide-up--img{
-  0%   {@include translate(0,   0%);}
-  100% {@include translate(0, -105%);}
+    0% {@include translate(0,    0%); opacity: 1}
+  100% {@include translate(0, -105%); opacity: 0}
 }
 
 @keyframes show--frame{
@@ -52,17 +59,15 @@ $transition-hidden: all 1s !default;
 
   .c-item{
     position: relative;
-    background: gray;
-    //transition: opacity 0.75s;
+    background: $bg-gray;
     cursor: pointer;
+    transition: $transition-transform;
     margin: 1px 0;
     max-height: 100%;
     overflow: hidden;
     padding: 0;
 
-    &:focus{
-      outline: 2px solid initial;
-    }
+  
 
     & > img {
         margin: 0;
@@ -87,4 +92,9 @@ $transition-hidden: all 1s !default;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
   }
+
+  .hover-select{
+    animation: scale-hover 1s forwards;
+  }
+
 }

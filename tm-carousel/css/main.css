@@ -71,19 +71,26 @@ table {
     -o-transform: translate(0, 105%);
     transform: translate(0, 105%);
     opacity: 0; } }
+@keyframes scale-hover {
+  0% {
+    background-color: #7f8c8d; }
+  100% {
+    background-color: rgba(52, 152, 219, 0.5); } }
 @keyframes slide-up--img {
   0% {
     -webkit-transform: translate(0, 0%);
     -moz-transform: translate(0, 0%);
     -ie-transform: translate(0, 0%);
     -o-transform: translate(0, 0%);
-    transform: translate(0, 0%); }
+    transform: translate(0, 0%);
+    opacity: 1; }
   100% {
     -webkit-transform: translate(0, -105%);
     -moz-transform: translate(0, -105%);
     -ie-transform: translate(0, -105%);
     -o-transform: translate(0, -105%);
-    transform: translate(0, -105%); } }
+    transform: translate(0, -105%);
+    opacity: 0; } }
 @keyframes show--frame {
   to {
     opacity: 1;
@@ -96,14 +103,13 @@ table {
   overflow: hidden; }
   #tm-carousel .c-item {
     position: relative;
-    background: gray;
+    background: #7f8c8d;
     cursor: pointer;
+    transition: transform 0.5s;
     margin: 1px 0;
     max-height: 100%;
     overflow: hidden;
     padding: 0; }
-    #tm-carousel .c-item:focus {
-      outline: 2px solid initial; }
     #tm-carousel .c-item > img {
       margin: 0;
       padding: 0; }
@@ -117,3 +123,5 @@ table {
     animation: show--frame 0.01s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards; }
+  #tm-carousel .hover-select {
+    animation: scale-hover 1s forwards; }

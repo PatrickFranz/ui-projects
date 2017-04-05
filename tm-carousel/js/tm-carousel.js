@@ -20,10 +20,10 @@ function compare(a,b) {
  Checks to see if a click was made on the top-half of the Image
  If the click was in the upper-half return -1
 */
-function isClickOnUpperHalf(ev, element){
-  var imgBox = element.getBoundingClientRect();
+function isClickOnUpperHalf(event){
+  var imgBox = event.currentTarget.getBoundingClientRect();
   var imgHalf = imgBox.top + ((imgBox.bottom - imgBox.top ) / 2);
-  return ev.clientY < imgHalf ? 1 : -1;
+  return event.clientY < imgHalf ? 1 : -1;
 }
 
 /* 
@@ -81,6 +81,7 @@ function keyHandler(event){
   }
 }
 
+<<<<<<< HEAD
 
 /** Move the carousel ahead/back by one.
  *
@@ -95,6 +96,37 @@ function next(element){
    }
 }
 
+=======
+function mousemoveHandler(event){
+  //Change cursor based on location of mouse on shown img.
+  console.log(event);
+  let target = event.currentTarget;
+  if(target._pos === 0){
+    if(isClickOnUpperHalf(event) === 1){
+      target.style.cursor='url("img/scrolldn.svg"), auto';
+      target.style.cursor.color="#000000";
+    } else {
+      target.style.cursor = 'url("img/scrollup.svg"), auto';
+    }
+  } else {
+    target.style.cursor = "pointer";
+  }
+}
+
+function mouseoverHandler(event){
+  let target = event.currentTarget;
+  if(target._pos !== 0){
+    target.classList.add("hover-select");
+  }
+}
+
+function mouseleaveHandler(event){
+  let target = event.currentTarget;
+  if(target._pos !== 0){
+    target.classList.remove("hover-select");
+  }
+}
+>>>>>>> slideAnimation
 
 /**
  * Re-lays out the carousel.
@@ -149,7 +181,11 @@ onload = function init(){
       clickHandler(event);
     });
     item.addEventListener('keyup', keyHandler);
+    item.addEventListener('mousemove', mousemoveHandler);
+    item.addEventListener('mouseenter', mouseoverHandler);
+    item.addEventListener('mouseleave', mouseleaveHandler);
   });
   relayout();
 }
+
 
