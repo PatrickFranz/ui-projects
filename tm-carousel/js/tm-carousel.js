@@ -81,8 +81,6 @@ function keyHandler(event){
   }
 }
 
-<<<<<<< HEAD
-
 /** Move the carousel ahead/back by one.
  *
  * @param {node} element 
@@ -96,7 +94,6 @@ function next(element){
    }
 }
 
-=======
 function mousemoveHandler(event){
   //Change cursor based on location of mouse on shown img.
   console.log(event);
@@ -126,7 +123,6 @@ function mouseleaveHandler(event){
     target.classList.remove("hover-select");
   }
 }
->>>>>>> slideAnimation
 
 /**
  * Re-lays out the carousel.

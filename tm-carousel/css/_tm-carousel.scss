@@ -67,8 +67,6 @@ $bg-gray: rgba(127, 140, 141,1.0);
     overflow: hidden;
     padding: 0;
 
-  
-
     & > img {
         margin: 0;
         padding: 0;
@@ -79,7 +77,6 @@ $bg-gray: rgba(127, 140, 141,1.0);
     animation: slide-down--img 2s;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
-  
   }
 
   .slide-up--img{
@@ -94,7 +91,7 @@ $bg-gray: rgba(127, 140, 141,1.0);
   }
 
   .hover-select{
-    animation: scale-hover 1s forwards;
+    animation: scale-hover 500ms forwards;
   }
 
 }
