@@ -49,9 +49,8 @@ table {
 .tm-example {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
-  height: 100%;
-  overflow: hidden; }
+  align-content: center;
+  padding: 100px; }
 
 /*Variables*/
 /*Mixins*/
@@ -64,6 +63,8 @@ table {
     -o-transform: translate(0, 0%);
     transform: translate(0, 0%);
     opacity: 1; }
+  90% {
+    opacity: 0.9; }
   100% {
     -webkit-transform: translate(0, 105%);
     -moz-transform: translate(0, 105%);
@@ -99,18 +100,25 @@ table {
   align-items: center;
   display: flex;
   flex-direction: column;
+  perspective: 600px;
   position: relative;
-  overflow: hidden; }
+  height: 55vh; }
   #tm-carousel .c-item {
-    position: relative;
     background: #7f8c8d;
     cursor: pointer;
+    border: 1px solid white;
+    position: absolute;
     transition: transform 0.5s;
     margin: 1px 0;
     max-height: 100%;
     overflow: hidden;
     padding: 0; }
+    #tm-carousel .c-item:focus {
+      border-left: 2px solid rgba(52, 152, 219, 0.5);
+      border-right: 2px solid rgba(52, 152, 219, 0.5); }
     #tm-carousel .c-item > img {
+      display: block;
+      transition: all 2s;
       margin: 0;
       padding: 0; }
   #tm-carousel .slide-down--img, #tm-carousel .slide-up--img {

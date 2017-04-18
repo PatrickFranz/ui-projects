@@ -2,10 +2,9 @@
 .tm-example{
   display: flex;
   justify-content: center;
-  margin-top: 100px;
-  height: 100%;
-  overflow: hidden;
-}
+  align-content: center;
+  padding: 100px
+  }
 
 /*Variables*/
 $transition-transform: transform 0.5s !default;
@@ -33,6 +32,7 @@ $bg-gray: rgba(127, 140, 141,1.0);
 /*Animations*/
 @keyframes slide-down--img{
     0% {@include translate(0,   0%); opacity: 1}
+   90% {opacity: 0.9}
   100% {@include translate(0, 105%); opacity: 0}
 }
 
@@ -54,23 +54,33 @@ $bg-gray: rgba(127, 140, 141,1.0);
   align-items: center;
   display: flex;
   flex-direction: column;
+  perspective: 600px;
   position: relative;
-  overflow: hidden;
+  height: 55vh;
 
   .c-item{
-    position: relative;
     background: $bg-gray;
     cursor: pointer;
+    border: 1px solid white;
+    // position: relative;
+    position: absolute;
     transition: $transition-transform;
     margin: 1px 0;
     max-height: 100%;
-    overflow: hidden;
+    overflow: hidden; 
     padding: 0;
 
+    &:focus{
+      border-left: 2px solid $focus-blue;
+      border-right: 2px solid $focus-blue;
+    }
+
     & > img {
-        margin: 0;
-        padding: 0;
-      }
+      display: block;
+      transition: all 2s;
+      margin: 0;
+      padding: 0;
+    }
   }
 
   .slide-down--img{

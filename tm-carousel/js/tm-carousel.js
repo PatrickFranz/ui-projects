@@ -1,4 +1,4 @@
-var caro_items = Array.prototype.slice.call(document.querySelectorAll(".c-item"));
+ caro_items = Array.prototype.slice.call(document.querySelectorAll(".c-item"));
 var tm_caro_width = 0;
 var tm_caro_height = 10;
 var tm_opacity_start = 0.75;
@@ -6,6 +6,7 @@ let slideDirection = 1;
 let oldItem,
     newItem
     slideDirection;
+let is3d = true;
 
 function compare(a,b) {
   if (a._pos < b._pos)
@@ -33,6 +34,7 @@ function clickHandler(event){
   let clickOnImageUpperHalf = undefined;
   newItem = event.currentTarget;
   oldItem = caro_items.find( el => { return el._pos === 0});
+  let clonedNode = (document.getElementById(oldItem.id)).cloneNode(true);
   if(newItem._pos === 0){
     slideDirection = isClickOnUpperHalf(event, newItem);
     next(newItem);
@@ -45,7 +47,7 @@ function clickHandler(event){
       });
     }
   }
-  relayout((document.getElementById(oldItem.id)).cloneNode(true));
+  is3d ? relayout3d(clonedNode) : relayout(clonedNode);
 }
 
 /**
@@ -86,24 +88,23 @@ function keyHandler(event){
  * @param {node} element 
  */
 function next(element){
+  let clonedNode = (document.getElementById(element.id)).cloneNode(true);
    if(caro_items[caro_items.indexOf(element) - slideDirection] !== undefined){
     caro_items.forEach( item =>{
       item._pos -= slideDirection;
     });
-    relayout((document.getElementById(element.id)).cloneNode(true));
+    is3d ? relayout3d(clonedNode) : relayout(clonedNode);
    }
 }
 
 function mousemoveHandler(event){
   //Change cursor based on location of mouse on shown img.
-  console.log(event);
   let target = event.currentTarget;
   if(target._pos === 0){
     if(isClickOnUpperHalf(event) === 1){
       target.style.cursor='url("img/scrolldn.svg"), auto';
-      target.style.cursor.color="#000000";
     } else {
-      target.style.cursor = 'url("img/scrollup.svg"), auto';
+      target.style.cursor='url("img/scrollup.svg"), auto';
     }
   } else {
     target.style.cursor = "pointer";
@@ -139,13 +140,35 @@ function relayout(clonedNode){
       } else {
         item.focus();
         if(clonedNode){
-          transitionAnim(clonedNode, item);
+          transitionAnim2d(clonedNode, item);
         }
       }
     });  
   }
 
-function transitionAnim(clonedNode, item){
+
+
+  function relayout3d(clonedNode){
+    let item = caro_items.find( anItem => anItem._pos === 0);
+    caro_items.forEach(function(item){
+      //Calculate new values for translate3d and zIndex
+      let translate3d = `0, ${(-40 * item._pos)}px, ${Math.abs(item._pos) * -50}px`;
+      let zIndex = `${Math.abs(item._pos) * -1}`;
+      item.firstElementChild.classList.remove('fadeIn');
+      item.firstElementChild.style.opacity = 1;
+      item.style.transform = `translate3d(${translate3d})`;
+      item.firstElementChild.style.opacity = 0;
+      item.style.zIndex = `${zIndex}`;
+      if(item._pos === 0){
+        item.firstElementChild.style.opacity = 1;
+        if(clonedNode){
+          transitionAnim3d(clonedNode, item);
+        }
+      }
+    });         
+  }
+
+function transitionAnim2d(clonedNode, item){
   item.appendChild(clonedNode);
   item.firstElementChild.style.position = 'absolute';
   item.style.opacity = '1';
@@ -164,6 +187,22 @@ function transitionAnim(clonedNode, item){
   }
 }
 
+function transitionAnim3d(clonedNode, item){
+  item.insertBefore(clonedNode, item.firstElementChild)
+  // item.appendChild(clonedNode);
+  item.style.opacity = '1';
+  item.lastElementChild.style.opacity = '0';
+  setTimeout(function(){
+      item.lastElementChild.style.opacity = 1;
+
+    clonedNode.remove();
+  }, 800)
+  if(slideDirection === 1){
+    item.firstElementChild.firstElementChild.classList.add('slide-up--img');
+  } else {
+    item.firstElementChild.firstElementChild.classList.add('slide-down--img');
+  }
+}
 
 onload = function init(){
   var currentPos = caro_items.length -1;
@@ -181,7 +220,7 @@ onload = function init(){
     item.addEventListener('mouseenter', mouseoverHandler);
     item.addEventListener('mouseleave', mouseleaveHandler);
   });
-  relayout();
+  is3d ? relayout3d() : relayout();
 }
 
 
