@@ -1,4 +1,4 @@
- caro_items = Array.prototype.slice.call(document.querySelectorAll(".c-item"));
+let caro_items = Array.prototype.slice.call(document.querySelectorAll(".c-item"));
 var tm_caro_width = 0;
 var tm_caro_height = 10;
 var tm_opacity_start = 0.75;
@@ -154,13 +154,16 @@ function relayout(clonedNode){
       //Calculate new values for translate3d and zIndex
       let translate3d = `0, ${(-40 * item._pos)}px, ${Math.abs(item._pos) * -50}px`;
       let zIndex = `${Math.abs(item._pos) * -1}`;
+      let bgOpacity = 1 - (Math.abs(item._pos) / 10);
+
       item.firstElementChild.classList.remove('fadeIn');
-      item.firstElementChild.style.opacity = 1;
-      item.style.transform = `translate3d(${translate3d})`;
       item.firstElementChild.style.opacity = 0;
+      // item.style.opacity = bgOpacity;
+      item.style.transform = `translate3d(${translate3d})`;
       item.style.zIndex = `${zIndex}`;
       if(item._pos === 0){
         item.firstElementChild.style.opacity = 1;
+        item.style.opacity = 1;
         if(clonedNode){
           transitionAnim3d(clonedNode, item);
         }
@@ -189,14 +192,12 @@ function transitionAnim2d(clonedNode, item){
 
 function transitionAnim3d(clonedNode, item){
   item.insertBefore(clonedNode, item.firstElementChild)
-  // item.appendChild(clonedNode);
   item.style.opacity = '1';
   item.lastElementChild.style.opacity = '0';
   setTimeout(function(){
-      item.lastElementChild.style.opacity = 1;
-
+    item.lastElementChild.style.opacity = 1;
     clonedNode.remove();
-  }, 800)
+  }, 1000)
   if(slideDirection === 1){
     item.firstElementChild.firstElementChild.classList.add('slide-up--img');
   } else {
